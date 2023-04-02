@@ -17,7 +17,16 @@ exports.styles = function styles() {
 exports.views = function views() {
     return gulp.src(["src/**/*.pug", "!src/**/_*"])
         .pipe(rename({extname: ".html"}))
-        .pipe(pug())
+        .pipe(pug(
+            {
+                pretty: true,
+            }
+        ))
+        .pipe(gulp.dest(dest))
+}
+
+exports.resources = function resources() {
+    return gulp.src(["src/**/*", "!src/**/*.pug", "!src/**/*.scss"])
         .pipe(gulp.dest(dest))
 }
 
@@ -39,7 +48,7 @@ exports.refresh = function refresh(cb) {
     cb();
 }
 
-exports.build = gulp.series(exports.clean, gulp.parallel(exports.styles, exports.views));
+exports.build = gulp.series(exports.clean, gulp.parallel(exports.styles, exports.views, exports.resources));
 
 exports.watch = function watch() {
     gulp.watch("src/**/*", gulp.series(exports.build, exports.refresh));
