@@ -6,8 +6,11 @@ nav {
   position: fixed;
   right: 0;
   top: 0;
+  z-index: 100;
   @include breakpoint(desktop) {
     position: static;
+    margin: 1em auto;
+    width: max-content;
   }
 }
 nav label[for='nav-toggle'] {
@@ -51,8 +54,14 @@ nav label[for='nav-toggle'] {
   background-color: $drop-color;
   opacity: 0;
   pointer-events: none;
-  #nav-toggle:checked ~ &, label:hover ~ &, &:hover {
+  #nav-toggle:checked ~ & {
     opacity: 1;
     pointer-events: unset;
+  }
+  @include breakpoint(desktop) {
+    label:hover ~ &, &:hover {
+      opacity: 1;
+      pointer-events: unset;
+    }
   }
 }
