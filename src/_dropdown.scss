@@ -17,10 +17,12 @@ nav label[for='nav-toggle'] {
   position: relative;
   display: flex;
   justify-content: right;
-  @include breakpoint(mobile) {
-    img {
-      height: 2em;
-    }
+  cursor: pointer;
+  img {
+    display: inline-block;
+    width: 3em;
+    height: 3em;
+    transition: filter 0.5s;
   }
   @include breakpoint(desktop) {
     width: 100%;
@@ -32,36 +34,47 @@ nav label[for='nav-toggle'] {
       display: inline;
     }
     img {
-      display: inline-block;
       width: 1em;
       height: 1em;
     }
   }
-  transition: filter 0.5s;
 }
 #nav-toggle {
   position: fixed;
   opacity: 0;
 }
-#nav-toggle:checked ~ label img {
-  filter: invert(100%);
-}
 #dropdown {
   border: $generic-border;
   margin: 0;
-  padding: 0.25em;
+  padding: 0;
   list-style: none;
   background-color: $drop-color;
   opacity: 0;
   pointer-events: none;
-  #nav-toggle:checked ~ & {
-    opacity: 1;
-    pointer-events: unset;
-  }
-  @include breakpoint(desktop) {
-    label:hover ~ &, &:hover {
-      opacity: 1;
-      pointer-events: unset;
+  li {
+    text-align: center;
+    a {
+      text-decoration: none;
+    }
+    &:not(:last-child) {
+      border-bottom: $generic-border;
     }
   }
+}
+@mixin select_when_dropdown_opened($target) {
+  #nav-toggle:checked ~ * #{$target}, #nav-toggle:checked ~ #{$target} {
+    @content;
+  }
+  @include breakpoint(desktop) {
+    nav:hover #{$target} {
+      @content;
+    }
+  }
+}
+@include select_when_dropdown_opened("img") {
+  filter: invert(1);
+}
+@include select_when_dropdown_opened("#dropdown") {
+  opacity: 1;
+  pointer-events: unset;
 }
