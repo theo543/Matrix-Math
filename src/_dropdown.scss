@@ -55,8 +55,12 @@ nav label[for='nav-toggle'] {
   pointer-events: none;
   li {
     text-align: center;
+    transition: filter 0.25s ease-in-out;
     a {
       text-decoration: none;
+    }
+    &:hover {
+      filter: contrast(1.5);
     }
     &:not(:last-child) {
       border-bottom: $generic-border;
