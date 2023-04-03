@@ -1,0 +1,58 @@
+@import '_globals';
+@import '_breakpoint';
+nav {
+  max-width: 80%;
+  margin: 1em;
+  position: fixed;
+  right: 0;
+  top: 0;
+  @include breakpoint(desktop) {
+    position: static;
+  }
+}
+nav label[for='nav-toggle'] {
+  position: relative;
+  display: flex;
+  justify-content: right;
+  @include breakpoint(mobile) {
+    img {
+      height: 2em;
+    }
+  }
+  @include breakpoint(desktop) {
+    width: 100%;
+    border: $generic-border;
+    background-color: $drop-color;
+    justify-content: center;
+    align-items: center;
+    span {
+      display: inline;
+    }
+    img {
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+    }
+  }
+  transition: filter 0.5s;
+}
+#nav-toggle {
+  position: fixed;
+  opacity: 0;
+}
+#nav-toggle:checked ~ label img {
+  filter: invert(100%);
+}
+#dropdown {
+  border: $generic-border;
+  margin: 0;
+  padding: 0.25em;
+  list-style: none;
+  background-color: $drop-color;
+  opacity: 0;
+  pointer-events: none;
+  #nav-toggle:checked ~ &, label:hover ~ &, &:hover {
+    opacity: 1;
+    pointer-events: unset;
+  }
+}

@@ -4,6 +4,7 @@ const pug = require("gulp-pug")
 const rename = require("gulp-rename")
 const fs = require("fs");
 const browserSync = require('browser-sync').create();
+const li = require("lorem-ipsum");
 
 let dest = "build";
 
@@ -20,13 +21,16 @@ exports.views = function views() {
         .pipe(pug(
             {
                 pretty: true,
+                locals: {
+                    lorem_ipsum: li.loremIpsum
+                }
             }
         ))
         .pipe(gulp.dest(dest))
 }
 
 exports.resources = function resources() {
-    return gulp.src(["src/**/*", "!src/**/*.pug", "!src/**/*.scss"])
+    return gulp.src(["src/**/*", "!src/**/*.pug", "!src/**/*.scss", "!src/**/_*"])
         .pipe(gulp.dest(dest))
 }
 

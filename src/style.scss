@@ -1,0 +1,67 @@
+@import '_globals';
+@import '_breakpoint';
+@import '_dropdown';
+* {
+  font-family: inherit;
+  box-sizing: inherit;
+}
+html {
+  box-sizing: border-box;
+  font-family: $font-default;
+  height: 100%;
+  overflow-y: scroll;
+
+  &, body {
+    margin: 0;
+  }
+}
+body {
+  min-height: 100%;
+  background: $page-color;
+  display: flex;
+  flex-direction: column;
+  @include breakpoint(desktop) {
+    background: linear-gradient(to right, $bg-color, transparent 25%),
+                linear-gradient(to left, $bg-color, transparent 25%),
+                $page-color;
+    }
+}
+header {
+  background-color: $header-color;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 3em;
+    height: 3em;
+  }
+  h1 {
+    margin-left: -0.40em;
+  }
+}
+.tabs {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "left main right";
+  main, section {
+    display: none;
+    @include breakpoint(desktop) {
+      max-width: calc($mobile-width - 10em);
+    }
+  }
+  section:target, #home:not(:target ~ main) {
+    display: block;
+    flex-grow: 1;
+    grid-column: main;
+  }
+}
+footer {
+  background-color: $footer-color;
+  text-align: center;
+  a {
+    white-space: nowrap;
+  }
+}
+
