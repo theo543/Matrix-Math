@@ -6,7 +6,7 @@ footer {
   a {
     text-decoration: none;
   }
-  @media (max-width: 80ch) { // about how many characters are in the link strings
+  @media (max-width: 80ch) { /* there are about 80 characters in the credits */
     a {
       display: block;
       &:not(:last-child) {

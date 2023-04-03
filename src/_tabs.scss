@@ -48,7 +48,7 @@
     }
   }
 }
-section.tab:target, #home.tab:not(:target ~ main) {
+.tab:target, .tabs:not(:has(:target)) #tab1 {
   display: block;
   grid-column: main;
   width: min($mobile-width, 100vw - 20em); /* stop growing past mobile width but give room for nav */
