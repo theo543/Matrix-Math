@@ -20,12 +20,12 @@ html(lang='en')
             ul#dropdown
                 li: a(href='#home') Introduction
                 li: a(href='#tab2') Determinant Calculation
-                li: a(href='#tab3')
+                li: a(href='#tab3') Coming soon!
         - if(!lorem_ipsum) lorem_ipsum = null
         - lorem = () => lorem_ipsum({count: 5, units: 'paragraphs', format: 'html'});
-        section#tab1  !{lorem()}
-        section#tab2 !{lorem()}
-        main#home !{lorem()}
+        section#tab1.tab  !{lorem()}
+        section#tab2.tab !{lorem()}
+        main#home.tab !{lorem()}
     footer
             <a href="https://www.flaticon.com/free-icons/matrix" title="matrix icons">Matrix icons created by Freepik - Flaticon</a>
             <a href="https://www.flaticon.com/free-icons/three-dots" title="three dots icons">Three dots icons created by alfanz - Flaticon</a>

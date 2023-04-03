@@ -1,6 +1,9 @@
 @import '_globals';
 @import '_breakpoint';
 @import '_dropdown';
+@import '_tabs';
+@import '_header';
+@import '_footer';
 * {
   font-family: inherit;
   box-sizing: inherit;
@@ -24,74 +27,3 @@ body {
   display: flex;
   flex-direction: column;
 }
-header {
-  background-color: $header-color;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 3em;
-    height: 3em;
-  }
-  h1 {
-    margin-left: -0.40em;
-  }
-}
-.tabs {
-  flex-grow: 1;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-areas: "left main right";
-}
-main, section {
-  display: none;
-  background-color: $page-color;
-  position: relative;
-  @include breakpoint(desktop) {
-    max-width: min($mobile-width, 100vw - 20em);
-    &::before, &::after {
-      content: "";
-      height: 100%;
-      width: 2em;
-      display: block;
-      position: absolute;
-      top: 0;
-      z-index: -1;
-    }
-    &::before {
-      left: 0;
-      transform: translateX(-1.95em);
-      background: linear-gradient(to left, $page-color, transparent);
-    }
-    &::after {
-      right: 0;
-      background: linear-gradient(to right, $page-color, transparent);
-      transform: translateX(1.95em);
-    }
-  }
-}
-section:target, #home:not(:target ~ main) {
-  display: block;
-  grid-column: main;
-}
-footer {
-  background-color: $footer-color;
-  text-align: center;
-  a {
-    text-decoration: none;
-  }
-  @media (max-width: 80ch) { // about how many characters are in the link strings
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    justify-content: center;
-    a {
-      display: block;
-
-      &:not(:last-child) {
-        border-bottom: $generic-border;
-      }
-    }
-  }
-}
-

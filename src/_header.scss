@@ -1,0 +1,16 @@
+@import "_globals";
+header {
+  background-color: $header-color;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: $generic-border;
+  img {
+    width: 3em;
+    height: 3em;
+  }
+  h1 {
+    margin-left: -0.40em;
+  }
+}

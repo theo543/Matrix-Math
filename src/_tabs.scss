@@ -1,0 +1,42 @@
+@import "_globals";
+@import "_breakpoint";
+.tabs {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "left main right";
+}
+.tab {
+  display: none;
+  background-color: $page-color;
+  position: relative;
+  @mixin gradient($direction) {
+    background: linear-gradient(to $direction, $page-color, rgba($page-color, 0.9) 30%, rgba($page-color, 0.1) 70%, transparent);
+  }
+  @include breakpoint(desktop) {
+    max-width: min($mobile-width, 100vw - 20em);
+    &::before, &::after {
+      content: "";
+      height: 100%;
+      width: 1em;
+      display: block;
+      position: absolute;
+      top: 0;
+      z-index: -1;
+    }
+    &::before {
+      left: 0;
+      transform: translateX(-95%);
+      @include gradient(left);
+    }
+    &::after {
+      right: 0;
+      transform: translateX(95%);
+        @include gradient(right);
+    }
+  }
+}
+section.tab:target, #home.tab:not(:target ~ main) {
+  display: block;
+  grid-column: main;
+}
