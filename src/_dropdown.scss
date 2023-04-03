@@ -1,6 +1,7 @@
 @import '_globals';
 @import '_breakpoint';
 nav {
+  pointer-events: none;
   max-width: 80%;
   margin: 1em;
   position: fixed;
@@ -14,6 +15,7 @@ nav {
   }
 }
 nav label[for='nav-toggle'] {
+  pointer-events: all;
   position: relative;
   display: flex;
   justify-content: right;
@@ -76,5 +78,5 @@ nav label[for='nav-toggle'] {
 }
 @include select_when_dropdown_opened("#dropdown") {
   opacity: 1;
-  pointer-events: unset;
+  pointer-events: all;
 }
