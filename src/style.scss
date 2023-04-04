@@ -12,7 +12,7 @@
 html {
   box-sizing: border-box;
   font-family: $font-default;
-  height: 100%;
+  min-height: 100%;
   overflow-y: scroll;
 
   &, body {

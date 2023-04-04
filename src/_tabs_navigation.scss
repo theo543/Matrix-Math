@@ -1,6 +1,7 @@
 @import "_globals";
 @import "_breakpoint";
 .tabs {
+  position: relative;
   flex-grow: 1;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
