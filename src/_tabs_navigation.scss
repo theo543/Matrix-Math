@@ -5,6 +5,9 @@
   flex-grow: 1;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
+  @include breakpoint(mobile) {
+    grid-template-columns: 0 auto 0;
+  }
   grid-template-areas: "left main right";
 }
 .tabs::before {
@@ -28,5 +31,7 @@
 .tab:target, .tabs:not(:has(:target)) #tab1 {
   display: block;
   grid-column: main;
-  width: min($mobile-width, 100vw - 20em); /* stop growing past mobile width but give room for nav */
+  @include breakpoint(desktop) {
+    width: min($mobile-width, 100vw - 20em); /* stop growing past mobile width but give room for nav */
+  }
 }

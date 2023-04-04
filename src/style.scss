@@ -13,6 +13,8 @@ html {
   box-sizing: border-box;
   font-family: $font-default;
   min-height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
 
   &, body {
@@ -23,7 +25,8 @@ body, header, footer, .tabs {
   overflow: auto; /* stop margin escape on small screens */
 }
 body {
-  min-height: 100%;
+  flex-grow: 1;
+  height: 100%;
   background: $bg-color;
   display: flex;
   flex-direction: column;
