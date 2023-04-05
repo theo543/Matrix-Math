@@ -79,6 +79,7 @@ div.expr {
 .col {
   column-count: 3;
   height: min-content;
+  padding: 1em 0;
 }
 .col > * {
   break-inside: avoid;

@@ -20,15 +20,13 @@ html(lang='en')
                 ul#dropdown
                     li: a(href='#tab1') Basic Operations
                     li: a(href='#tab2') Inverse
-                    li: a(href='#tab3') Coming soon!
+                    li: a(href='#tab3') Multiplication Exercises
             - if(!lorem_ipsum) lorem_ipsum = null
             - lorem = () => lorem_ipsum({count: 5, units: 'paragraphs', format: 'html'});
             section#tab2.tab
                 include _tab2.pug
             section#tab3.tab
-                h2 Coming soon!
-                p.
-                    This section is still under construction. Please check back later.
+                include _tab3.pug
             main#tab1.tab
                 include _tab1.pug
         footer
