@@ -32,10 +32,6 @@ label[for='nav-toggle'] {
       transition: filter 0.5s;
     }
     transition: background-color 0.5s, border 0.5s;
-    nav:has(#nav-toggle:checked) & {
-      border: $generic-border;
-      background-color: $drop-color;
-    }
     padding-right: 0.25em;
   }
   @include breakpoint(desktop) {
@@ -80,10 +76,16 @@ label[for='nav-toggle'] {
     }
   }
 }
-nav:has(#nav-toggle:checked) img {
+nav input:checked ~ label {
+  background-color: $drop-color;
+  border: $generic-border;
+}
+nav input:checked ~ label img {
   filter: invert(1);
 }
-nav:has(#nav-toggle:checked) #dropdown {
+nav input:checked ~ #dropdown {
   opacity: 1;
+  background-color: $drop-color;
+  border: $generic-border;
   pointer-events: all;
 }
