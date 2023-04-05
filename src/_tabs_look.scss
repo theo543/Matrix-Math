@@ -66,11 +66,16 @@
   content: "";
   background-color: black;
   color: transparent;
-  transition-property: background-color, color;
-  transition-duration: 0.5s;
+  transition: background-color 0.5s, color 0.5s;
   cursor: pointer;
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to right, transparent, $bg-color 10% 90%, transparent);
+  background-position: 50% 100%;
 }
 .spoiler:focus {
+  transition: background-color 0.5s, color 0.5s, background-size 2s ease-out;
+  background-size: 100% 1px;
   cursor: revert;
   background-color: revert;
   color: revert;
