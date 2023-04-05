@@ -4,7 +4,6 @@ const pug = require("gulp-pug")
 const rename = require("gulp-rename")
 const fs = require("fs");
 const browserSync = require('browser-sync').create();
-const li = require("lorem-ipsum");
 
 let dest = "build";
 
@@ -20,10 +19,7 @@ exports.views = function views() {
         .pipe(rename({extname: ".html"}))
         .pipe(pug(
             {
-                pretty: true,
-                locals: {
-                    lorem_ipsum: li.loremIpsum
-                }
+                pretty: true
             }
         ))
         .pipe(gulp.dest(dest))

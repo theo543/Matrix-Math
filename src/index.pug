@@ -21,8 +21,6 @@ html(lang='en')
                     li: a(href='#tab1') Basic Operations
                     li: a(href='#tab2') Inverse
                     li: a(href='#tab3') Multiplication Exercises
-            - if(!lorem_ipsum) lorem_ipsum = null
-            - lorem = () => lorem_ipsum({count: 5, units: 'paragraphs', format: 'html'});
             section#tab2.tab
                 include _tab2.pug
             section#tab3.tab
