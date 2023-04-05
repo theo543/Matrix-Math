@@ -29,34 +29,37 @@
   h1, h2, h3, h4, h5, h6 {
     text-align: center;
   }
-  span.expr {
+}
+span.expr {
+  font-family: monospace, $font-default;
+}
+div.expr {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 1em;
+  span, table {
     font-family: monospace, $font-default;
+    font-size: 1.5em;
   }
-  div.expr {
-    display: flex;
-    align-items: center;
-    span, table {
-      font-family: monospace, $font-default;
-      font-size: 1.5em;
-    }
-    span:not(.comment) {
-      white-space: nowrap; /* don't want to break up the expression */
-    }
-    span.comment {
-      font-size: 1em;
-      font-family: $font-default;
-      color: gray;
-    }
-    & > * {
-      margin: 0 0.25em;
-    }
+  span.comment {
+    font-size: 1em;
+    font-family: $font-default;
+    color: gray;
+    /* don't wrap */
+    flex-basis: min-content;
+    flex-grow: 1;
   }
-  table.matrix {
-    display: inline;
-    * {
-      border: none;
-    }
+  & > * {
+    margin: 0 0.25em;
   }
+}
+table.matrix {
+  display: inline;
+  * {
+    border: none;
+  }
+  text-align: center;
 }
 .spoiler {
   display: inline;
@@ -79,4 +82,20 @@
   cursor: revert;
   background-color: revert;
   color: revert;
+}
+.col {
+  column-count: 2;
+  height: min-content;
+}
+.col > * {
+  break-inside: avoid;
+  border: $generic-border;
+  margin: 0.5em;
+  display: inline-block;
+  width: max-content;
+}
+.col > h6 {
+  border: none;
+  column-span: all;
+  break-inside: revert;
 }
