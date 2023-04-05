@@ -27,14 +27,16 @@
 .tab {
   position: relative;
   grid-column: main;
-}
-.tabs:has(:target) .tab:not(:target) {
   display: none;
-}
-.tab:target, .tabs:not(:has(:target)) #tab1 {
-  display: block;
-  grid-column: main;
   @include breakpoint(desktop) {
     width: min($mobile-width, 100vw - 20em); /* stop growing past mobile width but give room for nav */
-  }
+  }}
+main.tab {
+  display: block;
+}
+.tabs :target ~ main.tab {
+  display: none;
+}
+.tab:target {
+  display: block;
 }

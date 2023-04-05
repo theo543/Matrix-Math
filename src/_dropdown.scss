@@ -1,5 +1,8 @@
 @import '_globals';
 @import '_breakpoint';
+label[for='nav-toggle'], #dropdown > * {
+  padding: 0.25em;
+}
 nav {
   pointer-events: none;
   max-width: 80%;
