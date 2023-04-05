@@ -6,8 +6,8 @@
     opacity: 0.5;
   }
   50% {
-    filter: contrast(0.5) hue-rotate(-70deg);
-    opacity: 0.8;
+    filter: contrast(0.5) hue-rotate(-70deg) brightness(105%);
+    opacity: 1;
   }
   100% {
     filter: contrast(0.5);
