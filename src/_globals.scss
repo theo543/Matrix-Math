@@ -4,5 +4,6 @@ $header-color: #E5D0E3;
 $footer-color: #ACF7C1;
 $drop-color: #0DAB76;
 $generic-border: 1px solid black;
+$hidden-border: 1px solid transparent; // still uses space so elements don't move on transition
 $font-default: Verdana, sans-serif;
 $mobile-width: 1000px;

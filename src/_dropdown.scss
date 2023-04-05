@@ -1,60 +1,77 @@
 @import '_globals';
 @import '_breakpoint';
-label[for='nav-toggle'], #dropdown > * {
-  padding: 0.25em;
+nav, nav * {
+  transition: background-color 0.5s, border 0.5s, filter 0.5s, opacity 0.5s;
 }
-nav {
+nav { /* the dropdown menu container */
   pointer-events: none;
   max-width: 80%;
-  margin: 1em;
-  position: fixed;
-  right: 0;
-  top: 0;
   z-index: 100;
+  @include breakpoint(mobile) {
+    position: fixed;
+    right: 0;
+    top: 0;
+    margin: 1em;
+  }
   @include breakpoint(desktop) {
     position: sticky;
     top: 5px;
-    margin: 1em auto;
-    width: max-content;
+    margin: 1em auto; /* center it in the grid sidebar */
+    width: max-content; /* don't want it going to 80% if not needed */
   }
 }
-label[for='nav-toggle'] {
-  pointer-events: all;
-  position: relative;
+.label_container {
+  border: $hidden-border; /* if we don't always have a border it moves when opened */
   display: flex;
+  align-items: center;
+  @include breakpoint(mobile) { /* on mobile the image goes on the right */
+    justify-content: flex-end;
+  }
+  @include breakpoint(desktop) { /* else center it (in the sidebar) and make it visible */
+    justify-content: center;
+    border: $generic-border;
+    background-color: $drop-color;
+  }
+}
+nav label {
+  pointer-events: all; /* you can click this even while closed */
+  display: flex;
+  justify-content: center; /* make sure the text and image is centered */
+  align-items: center;
   cursor: pointer;
   @include breakpoint(mobile) {
-    justify-content: right;
+    span { /* don't show "Menu" when closed */
+      font-size: 1.5em;
+      opacity: 0;
+      @at-root nav input:checked ~ .label_container label span {
+        /* override SCSS nesting to put this rule next to opacity: 0 */
+        opacity: 1;
+      }
+    }
     img {
       display: inline-block;
       width: 3em;
       height: 3em;
-      transition: filter 0.5s;
     }
-    transition: background-color 0.5s, border 0.5s;
     padding-right: 0.25em;
+    width: max-content; /* keep the label from filling the invisible label */
   }
   @include breakpoint(desktop) {
     width: 100%;
-    border: $generic-border;
-    background-color: $drop-color;
-    justify-content: center;
-    align-items: center;
-    span {
-      display: inline;
-    }
     img {
       width: 1em;
       height: 1em;
     }
   }
 }
-#nav-toggle {
+#nav-toggle { /* the checkbox that holds the dropdown state */
   position: fixed;
+  top: -100px;
+  left: -100px;
   opacity: 0;
+  pointer-events: none; /* the user doesn't ever use this directly */
 }
-#dropdown {
-  transition: opacity 0.5s;
+#dropdown { /* the link container */
   border: $generic-border;
   margin: 0;
   padding: 0;
@@ -76,14 +93,10 @@ label[for='nav-toggle'] {
     }
   }
 }
-nav input:checked ~ label {
-  background-color: $drop-color;
-  border: $generic-border;
-}
-nav input:checked ~ label img {
+nav input:checked ~ .label_container label img {
   filter: invert(1);
 }
-nav input:checked ~ #dropdown {
+nav input:checked ~ #dropdown, nav input:checked ~ .label_container {
   opacity: 1;
   background-color: $drop-color;
   border: $generic-border;

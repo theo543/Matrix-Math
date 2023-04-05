@@ -14,8 +14,8 @@ html(lang='en')
         .tabs
             div: nav
                 input#nav-toggle(type='checkbox')
-                label(for='nav-toggle')
-                    span(hidden) Menu &emsp14;
+                div.label_container: label(for='nav-toggle')
+                    span Menu &emsp14;
                     img(src='images/icon-dropdown.svg' alt='Expand menu toggle icon desktop' height='50')
                 ul#dropdown
                     li: a(href='#tab1') Basic Operations
