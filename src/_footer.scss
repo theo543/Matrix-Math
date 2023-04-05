@@ -3,20 +3,24 @@ footer {
   border-top: $generic-border;
   background-color: $footer-color;
   text-align: center;
+  p {
+    margin: 0.25em 0;
+    padding: 0;
+  }
   a {
     text-decoration: none;
   }
-  @media (max-width: 80ch) { /* there are about 80 characters in the credits */
-    a {
-      display: block;
-      &:not(:last-child) {
-        border-bottom: $generic-border;
+  .credits {
+    @media (max-width: 80ch) { /* there are about 80 characters in the credits */
+      a {
+        display: block;
+        border-top: $generic-border;
       }
     }
-  }
-  @media not all and (max-width: 80ch) {
-    a:not(:first-child)::before {
+    @media not all and (max-width: 80ch) {
+      a:not(:first-child)::before {
         content: "\a0\a0\a0\a0";
+      }
     }
   }
 }
