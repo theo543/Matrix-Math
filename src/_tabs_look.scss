@@ -26,4 +26,52 @@
       @include gradient(right);
     }
   }
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+  }
+  span.expr {
+    font-family: monospace, $font-default;
+  }
+  div.expr {
+    display: flex;
+    align-items: center;
+    span, table {
+      font-family: monospace, $font-default;
+      font-size: 1.5em;
+    }
+    span:not(.comment) {
+      white-space: nowrap; /* don't want to break up the expression */
+    }
+    span.comment {
+      font-size: 1em;
+      font-family: $font-default;
+      color: gray;
+    }
+    & > * {
+      margin: 0 0.25em;
+    }
+  }
+  table.matrix {
+    display: inline;
+    * {
+      border: none;
+    }
+  }
+}
+.spoiler {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  content: "";
+  background-color: black;
+  color: transparent;
+  transition-property: background-color, color;
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.spoiler:focus {
+  cursor: revert;
+  background-color: revert;
+  color: revert;
 }

@@ -21,7 +21,7 @@ html {
     margin: 0;
   }
 }
-body, header, footer, .tabs {
+header, footer {
   overflow: auto; /* stop margin escape on small screens */
 }
 body {

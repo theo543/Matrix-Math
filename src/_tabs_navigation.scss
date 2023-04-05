@@ -25,8 +25,11 @@
   pointer-events: none;
 }
 .tab {
-  display: none;
   position: relative;
+  grid-column: main;
+}
+.tabs:has(:target) .tab:not(:target) {
+  display: none;
 }
 .tab:target, .tabs:not(:has(:target)) #tab1 {
   display: block;

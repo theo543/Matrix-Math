@@ -1,9 +1,112 @@
+h1.title Introduction to Matrices
+h3.title Basic Matrix Operations
 p.
     Matrices are an essential mathematical concept used in fields such as computer graphics, engineering and physics.
     A matrix is a rectangular array of elements, arranged in rows and columns. However, matrices are not just compact
     ways of storing data, as there are various mathematical operations that can be performed on them but not on
     plain numbers.
+hr
 p.
-    The sum of two matrices is obtained by adding up the elements as usual. Similarly, the product of a matrix
-    and a non-matrix number is obtained by multiplying each element by that number. However, the product of two
-    matrices is a special operation that does not have an equivalent in the case of numbers.
+    The standard arithmetic operations of addition, subtraction, multiplication and division do not completely
+    apply to matrices. Addition and multiplication by a scalar (a normal number) are simple:
+div.expr
+    table.matrix
+        tr #[td 1] #[td 2]
+        tr #[td 3] #[td 4]
+    span *
+    span 2
+    span #{'='}
+    table.matrix
+        tr #[td 2] #[td 4]
+        tr #[td 6] #[td 8]
+    span.comment Multiplying a matrix by a scalar is easy...
+div.expr
+    table.matrix
+        tr #[td 1] #[td 2]
+        tr #[td 3] #[td 4]
+    span +
+    table.matrix
+        tr #[td 1] #[td 0]
+        tr #[td 0] #[td 1]
+    span #{'='}
+    table.matrix
+        tr #[td 2] #[td 2]
+        tr #[td 3] #[td 5]
+    span.comment Addition works as expected...
+hr
+p But multiplication is weird:
+div.expr
+    table.matrix
+        tr #[td 1] #[td 2]
+        tr #[td 3] #[td 4]
+    span *
+    table.matrix
+        tr #[td 1] #[td 0]
+        tr #[td 0] #[td 1]
+    span #{'='}
+    table.matrix
+        tr #[td 1] #[td 2]
+        tr #[td 3] #[td 4]
+    span.comment This is clearly not just multiplying each element by the corresponding element...
+p.
+    Why is it like this? Well, defining multiplication like this turns out to allows all sorts of useful
+    computations, such as solving systems of linear equations or graphics transformations. If we decided to just multiply
+    normally, those operations wouldn't work.
+    Matrix multiplication is defined as follows:
+p.
+    Let A be an m × n matrix and B be an n × p matrix. Then the result C is a matrix of size m × p, where
+    each element C<sub>ij</sub> is the "dot product" of the i<sup>th</sup> row of A and the j<sup>th</sup> column of B,
+    which means we take the sum of the products of pairs of elements one by one. For example, the number 4 from our
+    example is obtained from the calculation #[span.expr 3 * 0 + 4 * 1 = 4]. Notice that since both rows and columns have length n,
+    it is guaranteed they will have equal length, so we can always do this. If the lengths don't match, there is no
+    way to multiply the matrices. This means only square matrices can be raised to a power.
+p.
+    Fun fact: you don't need to do any calculation to solve our example, because we used the "identity matrix".
+    The identity matrix is a square matrix with 1s on the diagonal and 0s everywhere else. It is the matrix
+    equivalent of the number 1, and when you see it you know it doesn't change anything. It is also commutative,
+    just like 1, so #[span.expr A * I = I * A = A]. This is always true for normal numbers, but usually not for matrices.
+p.
+    We can see this operation is much more complicated than on the real numbers. It is not even defined for most
+    pairs of matrices because we need the sizes to match, and in general it's not commutative. However, it is
+    associative, which means that #[span.expr A * (B * C) = (A * B) * C].
+hr
+p.
+    What about subtraction and division? Subtraction is defined as #[span.expr A - B = A + (-B)], so it's easy - just subtract the corresponding elements.
+    There doesn't exist a direct definition of division, but we can define it in terms of multiplication.
+    To divide, we multiply by the inverse of the divisor (just like how #[span.expr x / y = x * 1 / y]). But matrices aren't always invertible.
+    In fact, they are only invertible if they are square and have a determinant that is not 0.
+p.
+    What is a determinant? Well, calculating the determinant is one of the common operations on matrices. There
+    isn't really a good way to explain it in terms of normal numbers, so let's just see how it works on matrices.
+div.expr
+    span det(
+    table.matrix
+        tr #[td 1] #[td 2]
+        tr #[td 3] #[td 4]
+    span ) = ?
+    span.comment Determinants are a bit complicated... but for 2x2 matrices there is a simple formula.
+p.
+    2x2 matrices are a special case: we just do #[span.expr 1 * 4 - 2 * 3 = -2]. We didn't get 0 so this matrix has an inverse.
+    Now let's look at the general algorithm:
+div.expr
+    span det(
+    table.matrix
+        tr #[td 1] #[td 2] #[td 3]
+        tr #[td 4] #[td 5] #[td 6]
+        tr #[td 7] #[td 8] #[td 9]
+    span ) = ?
+    span.comment Fun fact: there actually is a formula for this too. Look it up if you want, but we'll showcase the general algorithm.
+p.
+    This is how we do it:
+ol
+    li Pick a row or a column. Ones with zeroes are easier to calculate, but it always gives the same result.
+    li.
+        Find the determinant of the matrix obtained by removing that row and column. On paper, you can just imagine crossing out the
+        row and column. If only one element is non-zero you can literally do that, the others won't matter. We will see why in the next step.
+    li.
+        Multiply each determinant by the element and it's "sign". If the element is 0 don't bother calculating the determinant.
+        The "sign" is 1 if the sum of the coordinates is even, else it's -1. It works like a chessboard where the top-left corner of the matrix has sign 1.
+    li Now simply add up the list of values you got. That is the determinant.
+p.
+    Do the calculation yourself to check that it works!
+    For our matrix the result will be #[span.expr.spoiler(tabindex=0) 1 * (5 * 9 - 6 * 8) - 2 * (4 * 9 - 6 * 7) + 3 * (4 * 8 - 5 * 7) = 0].
