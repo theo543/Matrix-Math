@@ -1,3 +1,62 @@
-span Determinant of a 3x3 matrix
-// random image from the internet to test if img tag is working
-img(src="data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7")
+h1  Inverting a Matrix
+p.
+    As mentioned in the first section, to divide a matrix by another matrix, you must first invert the second matrix.
+    We will compute it using the minors, cofactors, and adjugate method. We will invert the matrix:
+div.expr
+    span A =
+    table.matrix
+        tr #[td 1] #[td 0] #[td 1]
+        tr #[td 1] #[td 1] #[td 0]
+        tr #[td 2] #[td 0] #[td 1]
+    span ,&nbsp;&nbsp;
+    span A#[sup -1] = adj#[sub A] / det#[sub A]
+
+p.
+    The inverse is obtained by dividing the adjugate by the determinant of the original matrix.
+    The adjugate is the transpose of the matrix of cofactors. "Transpose" means to swap the rows and columns.
+    The matrix of cofactors is the matrix of determinants obtained by crossing out each row and column just like with calculating the determinant,
+    and then multiplying each determinant by the appropriate sign.
+div.expr
+    span det(
+    table.matrix
+        tr #[td 1] #[td 0]
+        tr #[td 1] #[td 1]
+    span ) = 1&nbsp;
+    span det(
+    table.matrix
+        tr #[td 1] #[td 1]
+        tr #[td 2] #[td 0]
+    span ) = -2
+    span.comment And so on for all 9 elements...
+div.expr
+    span cof(A) =
+    table.matrix.minuses
+        tr #[td 1] #[td -1] #[td -2]
+        tr #[td 0] #[td -1] #[td 0]
+        tr #[td -1] #[td 1] #[td 1]
+    span.comment positions with odd sign colored red
+p To obtain the inverse we must transpose to get the adjugate, and then divide by the determinant.
+div.expr
+    span det(
+    table.matrix
+        tr #[td 1] #[td 0] #[td 1]
+        tr #[td 1] #[td 1] #[td 0]
+        tr #[td 2] #[td 0] #[td 1]
+    span ) = 1 - 0 + (-2) = -1]
+div.expr
+    span adj(A) =
+    table.matrix
+        tr #[td 1] #[td 0] #[td -1]
+        tr #[td -1] #[td -1] #[td 0]
+        tr #[td -2] #[td 0] #[td 1]
+div.expr
+    span A#[sup -1] = (1 / -1) *
+    table.matrix
+        tr #[td 1] #[td 0] #[td -1]
+        tr #[td -1] #[td -1] #[td 0]
+        tr #[td -2] #[td 0] #[td 1]
+    span #{'='}
+    table.matrix
+        tr #[td -1] #[td 0] #[td 1]
+        tr #[td 1] #[td 1] #[td 0]
+        tr #[td 2] #[td 0] #[td -1]
