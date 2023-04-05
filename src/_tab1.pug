@@ -110,11 +110,12 @@ p.
     Now let's look at the general algorithm:
 div.expr
     span det(
-    table.matrix
+    table.matrix.checkerboard
         tr #[td 1] #[td 2] #[td 3]
         tr #[td 4] #[td 5] #[td 6]
         tr #[td 7] #[td 8] #[td 9]
     span ) = ?
+    span.comment I used a checkerboard pattern to make it easier to see the 'sign' of each element.
     span.comment Fun fact: there actually is a formula for this too. Look it up if you want, but we'll showcase the general algorithm.
 p.
     This is how we do it:
@@ -130,7 +131,7 @@ ol
     li Now simply add up the list of values you got. That is the determinant.
 p.
     Do the calculation yourself to check that it works!
-    For our matrix the result will be #[span.expr.spoiler(tabindex=0) 1 * (5 * 9 - 6 * 8) - 2 * (4 * 9 - 6 * 7) + 3 * (4 * 8 - 5 * 7) = 0].
+    For our matrix, picking the top row, the result will be #[span.expr.spoiler(tabindex=0) 1 * (5 * 9 - 6 * 8) - 2 * (4 * 9 - 6 * 7) + 3 * (4 * 8 - 5 * 7) = 0].
     So, our matrix is #[span.spoiler(tabindex=0) #[em not] invertible].
 p.
     In this case we didn't have too many calculations to do, but for larger matrices it can get quite complicated.
@@ -151,7 +152,7 @@ ul
     li Add a multiple of one row/column to another.
 p.
     Let's use them to find the determinant of our 3x3 matrix in another way.
-div.expr
+div.expr.checkerboard
     span det(
     table.matrix
         tr #[td 1] #[td 2] #[td 3]
@@ -186,6 +187,12 @@ p   Be sure to check the next pages for the inverse of matrices! For now, here's
 
 hr
 
+p.
+    By the way, while it is a good idea to do these calculations by hand to learn the process,
+    you should also check your work with a calculator or computer program.
+    The calculator I use is called #[a(href='https://matrixcalc.org/') matrixcalc.org].
+    It has lots of features, including a matrix inverse calculator. You can also install it to your desktop
+    (some browsers may not support PWA installation).
 div.col
     div.expr
         table.matrix

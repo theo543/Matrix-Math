@@ -29,34 +29,82 @@ div.expr
     span ) = -2
     span.comment And so on for all 9 elements...
 div.expr
+    span minors(A) =
+    table.matrix.checkerboard
+        tr #[td 1] #[td 1] #[td -2]
+        tr #[td 0] #[td -1] #[td 0]
+        tr #[td -1] #[td -1] #[td 1]
+    span.comment Now let's negate the odd-numbered elements...
+div.expr
     span cof(A) =
-    table.matrix.minuses
+    table.matrix.checkerboard
         tr #[td 1] #[td -1] #[td -2]
         tr #[td 0] #[td -1] #[td 0]
         tr #[td -1] #[td 1] #[td 1]
-    span.comment positions with odd sign colored red
 p To obtain the inverse we must transpose to get the adjugate, and then divide by the determinant.
+div.expr
+    span adj(A) =
+    table.matrix
+        tr #[td 1] #[td 0] #[td -1]
+        tr #[td -1] #[td -1] #[td 1]
+        tr #[td -2] #[td 0] #[td 1]
 div.expr
     span det(
     table.matrix
         tr #[td 1] #[td 0] #[td 1]
         tr #[td 1] #[td 1] #[td 0]
         tr #[td 2] #[td 0] #[td 1]
-    span ) = 1 - 0 + (-2) = -1]
-div.expr
-    span adj(A) =
-    table.matrix
-        tr #[td 1] #[td 0] #[td -1]
-        tr #[td -1] #[td -1] #[td 0]
-        tr #[td -2] #[td 0] #[td 1]
+    span ) = 1 - 0 + (-2) = -1
 div.expr
     span A#[sup -1] = (1 / -1) *
     table.matrix
         tr #[td 1] #[td 0] #[td -1]
-        tr #[td -1] #[td -1] #[td 0]
+        tr #[td -1] #[td -1] #[td 1]
         tr #[td -2] #[td 0] #[td 1]
     span #{'='}
     table.matrix
         tr #[td -1] #[td 0] #[td 1]
-        tr #[td 1] #[td 1] #[td 0]
+        tr #[td 1] #[td 1] #[td -1]
         tr #[td 2] #[td 0] #[td -1]
+p  Let's try multiplying a matrix by A and then by the inverse to see if we correctly inverted it.
+div.expr
+    table.matrix
+        tr #[td 25] #[td 11] #[td -13]
+        tr #[td 1] #[td 1] #[td -1]
+        tr #[td -7] #[td -2] #[td 4]
+    span *
+    table.matrix
+        tr #[td 1] #[td 0] #[td 1]
+        tr #[td 1] #[td 1] #[td 0]
+        tr #[td 2] #[td 0] #[td 1]
+    span #{'='}
+    table.matrix
+        tr #[td 10] #[td 11] #[td 12]
+        tr #[td 0] #[td 1] #[td 0]
+        tr #[td -1] #[td -2] #[td -3]
+    span.comment Multiplying by A...
+div.expr
+    table.matrix
+        tr #[td 10] #[td 11] #[td 12]
+        tr #[td 0] #[td 1] #[td 0]
+        tr #[td -1] #[td -2] #[td -3]
+    span *
+    table.matrix
+        tr #[td -1] #[td 0] #[td 1]
+        tr #[td 1] #[td 1] #[td -1]
+        tr #[td 2] #[td 0] #[td -1]
+    span #{'='}
+    table.matrix
+        tr #[td 25] #[td 11] #[td -13]
+        tr #[td 1] #[td 1] #[td -1]
+        tr #[td -7] #[td -2] #[td 4]
+    span.comment The inverse correctly reverses the multiplication.
+p.
+    This can be used to solve equation systems where the number of equations is equal to the number of variables.
+    Since a system can be represented as #[span.expr A * X = B], we can solve for X by multiplying both sides on the left by the inverse of A,
+    where A is the coefficient matrix, X is the vector of unknowns, and B is the vector of constants. (A vector is a matrix with only one column.)
+p.
+    There are other methods to compute the inverse of a matrix, but this is a good one to start with.
+    A more efficient method is to use Gaussian elimination to convert the matrix to 'row echelon form',
+    while performing the same operations on an identity matrix, which will result in the inverse.
+    This method will be explained in the echelon form section.
