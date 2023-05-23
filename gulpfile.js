@@ -4,6 +4,7 @@ const pug = require("gulp-pug")
 const rename = require("gulp-rename")
 const fs = require("fs");
 const browserSync = require('browser-sync').create();
+const exec = require("util").promisify(require("child_process").exec);
 
 let dest = "build";
 
@@ -30,6 +31,11 @@ exports.resources = function resources() {
         .pipe(gulp.dest(dest))
 }
 
+exports.revision = async function revision() {
+    const { stdout } = await exec("git rev-parse HEAD");
+    await fs.promises.writeFile(`${dest}/revision.txt`, stdout);
+}
+
 exports.clean = function clean() {
     return fs.promises.rm(dest, {recursive: true, force: true});
 }
@@ -48,7 +54,7 @@ exports.refresh = function refresh(cb) {
     cb();
 }
 
-exports.build = gulp.series(exports.clean, gulp.parallel(exports.styles, exports.views, exports.resources));
+exports.build = gulp.series(exports.clean, gulp.parallel(exports.styles, exports.views, exports.resources, exports.revision));
 
 exports.watch = function watch() {
     gulp.watch("src/**/*", gulp.series(exports.build, exports.refresh));
