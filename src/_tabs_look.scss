@@ -116,13 +116,15 @@ div.expr {
   break-inside: avoid;
   border: $generic-border;
   margin: 0.5em;
-  display: inline-block;
   width: max-content;
 }
-.col > h6 {
+.col > h1 {
   border: none;
   column-span: all;
   break-inside: revert;
+  margin: 1em 0;
+  text-align: center;
+  width: 100%;
 }
 table.matrix {
   display: inline;
