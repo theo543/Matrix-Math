@@ -50,6 +50,13 @@ function handleExprChoice(event, $expr) {
         }
     });
     $interactive.appendChild($form);
+    requestAnimationFrame(() => {
+        $interactive.classList.remove("interactive_flash");
+        requestAnimationFrame(() => {
+            $interactive.classList.add("interactive_flash");
+        });
+    });
+    $interactive.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
 }
 
 /**

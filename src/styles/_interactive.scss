@@ -21,3 +21,20 @@
   appearance: textfield;
   text-align: center;
 }
+
+.interactive_flash {
+  animation: interactive_question_update 0.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes interactive_question_update {
+  0% {
+    background-color: rgba(0, 255, 255, 0);
+  }
+  50% {
+    background-color: rgba(0, 255, 255, 0.5);
+  }
+  100% {
+    background-color: rgba(0, 255, 255, 0);
+  }
+}
