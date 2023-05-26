@@ -1,3 +1,2 @@
-import { dot_product, fromHTML } from './matrices.js';
-console.log(dot_product, fromHTML);
-let a = undefined;
+import * as matrices from './matrices.js';
+window.matrices = matrices; // for debugging
