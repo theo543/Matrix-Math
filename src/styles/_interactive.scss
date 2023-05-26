@@ -1,0 +1,23 @@
+@import '_globals';
+.interactive_exercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid gray;
+  margin: 0.25em;
+  padding: 0.25em;
+}
+.interactive_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.interactive_form table input {
+  height: 4em;
+  width: 4em;
+  appearance: textfield;
+  text-align: center;
+}

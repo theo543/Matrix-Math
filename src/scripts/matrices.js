@@ -6,15 +6,14 @@
 
 /**
  * @param mat {Matrix}
+ * @param col_index {number}
  * @returns {number[]}
  */
-function columns(mat) {
+function getColumn(mat, col_index) {
     /** @type {number[]} **/
-    let cols = Array(mat.size.cols);
-    for (let col = 0; col < mat.size.cols; col++) {
-        mat.data.forEach((row, row_index) => cols[row_index] = row[col]);
-    }
-    return cols;
+    let col = Array(mat.size.cols);
+    mat.data.forEach((row, row_index) => col[row_index] = row[col_index]);
+    return col;
 }
 
 /**
@@ -38,10 +37,11 @@ export function dot_product(a, b) {
 export function multiply(a, b) {
     if (a.size.cols !== b.size.rows)
         throw ("Incompatible matrices");
-    let result = Array(a.size.rows).map(() => (new Array(b.size.cols)).fill(0));
+    let result = Array(a.size.rows);
     for(let row = 0; row < a.size.rows; row++) {
+        result[row] = Array(b.size.cols);
         for(let col = 0; col < b.size.cols; col++) {
-            result[row][col] = dot_product(a.data[row], columns(b)[col]);
+            result[row][col] = dot_product(a.data[row], getColumn(b, col));
         }
     }
     return { size: { rows: a.size.rows, cols: b.size.cols }, data: result };
@@ -63,9 +63,15 @@ export function fromHTML(table) {
         /** @type {number[]} **/
         let row = [];
         tds.forEach((elem, index) => {
-            if (elem.textContent === null || !(elem instanceof HTMLTableCellElement))
-                throw ("Conversion error");
-            row[index] = parseInt(elem.textContent);
+            if (!(elem instanceof HTMLTableCellElement))
+                throw "Conversion error";
+            if(elem.textContent === null || elem.textContent === "") {
+                /** @type {HTMLInputElement} **/
+                let $input = elem.querySelector("input[type='number']");
+                if($input)
+                    row[index] = parseInt($input.value);
+                else throw "Conversion error";
+            } else row[index] = parseInt(elem.textContent);
         });
         data.push(row);
     }
@@ -94,4 +100,21 @@ export function toHTML(mat) {
         $table.appendChild($tr);
     }
     return $table;
+}
+
+/**
+ * @param mat_a {Matrix}
+ * @param mat_b {Matrix}
+ * @returns {boolean}
+ */
+export function equal(mat_a, mat_b) {
+    if(mat_a.size.rows !== mat_b.size.rows || mat_b.size.cols !== mat_b.size.cols)
+        return false;
+    for(let row = 0;row<mat_a.size.rows;row++) {
+        for(let col = 0;col<mat_a.size.cols;col++) {
+            if(mat_a.data[row][col] !== mat_b.data[row][col])
+                return false;
+        }
+    }
+    return true;
 }
