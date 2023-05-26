@@ -1,6 +1,7 @@
 /**
  * @typedef {{cols: number, rows: number}} MatrixSize
- * @typedef {{size: MatrixSize, data: number[][]}} Matrix
+ * @typedef {number[][]} MatrixData
+ * @typedef {{size: MatrixSize, data: MatrixData}} Matrix
  */
 
 /**
@@ -8,6 +9,7 @@
  * @returns {number[]}
  */
 function columns(mat) {
+    /** @type {number[]} **/
     let cols = Array(mat.size.cols);
     for (let col = 0; col < mat.size.cols; col++) {
         mat.data.forEach((row, row_index) => cols[row_index] = row[col]);
@@ -16,8 +18,8 @@ function columns(mat) {
 }
 
 /**
- * @param a {Matrix}
- * @param b {Matrix}
+ * @param a {number[]}
+ * @param b {number[]}
  * @returns {number}
  */
 export function dot_product(a, b) {
@@ -54,7 +56,7 @@ export function fromHTML(table) {
         throw ("Missing matrix class");
     let trs = Array.from(table.getElementsByTagName("tr"));
     let rows = trs.length;
-    /** @type {number[][]} **/
+    /** @type {MatrixData} **/
     let data = [];
     for (let tr of trs) {
         let tds = Array.from(tr.getElementsByTagName("td"));
@@ -80,16 +82,16 @@ export function fromHTML(table) {
  * @returns {HTMLTableElement}
  */
 export function toHTML(mat) {
-    let elem = document.createElement("table");
-    elem.classList.add("matrix");
+    let $table = document.createElement("table");
+    $table.classList.add("matrix");
     for (let row = 0; row < mat.size.rows; row++) {
-        let row = document.createElement("tr");
+        let $tr = document.createElement("tr");
         for (let col = 0; col < mat.size.cols; col++) {
-            let cell = document.createElement("td");
-            cell.textContent = mat.data[row][col].toString();
-            row.appendChild(cell);
+            let $td = document.createElement("td");
+            $td.textContent = mat.data[row][col].toString();
+            $tr.appendChild($td);
         }
-        elem.appendChild(row);
+        $table.appendChild($tr);
     }
-    return elem;
+    return $table;
 }
