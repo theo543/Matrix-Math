@@ -36,8 +36,9 @@ exports.revision = async function revision() {
     await fs.promises.writeFile(`${dest}/revision.txt`, stdout);
 }
 
-exports.clean = function clean() {
-    return fs.promises.rm(dest, {recursive: true, force: true});
+exports.clean = async function clean() {
+    await fs.promises.rm(dest, {recursive: true, force: true});
+    await fs.promises.mkdir(dest);
 }
 
 exports.serve = function serve(cb) {
