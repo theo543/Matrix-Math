@@ -10,6 +10,7 @@
   padding: 0.25em;
   position: relative;
   overflow: auto;
+  z-index: 0;
   > * {
     position: relative;
     z-index: 1;
@@ -44,6 +45,7 @@
   position: absolute;
   left: 0;
   top: 0;
+  pointer-events: none;
 }
 
 .interactive_flash {
