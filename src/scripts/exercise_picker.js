@@ -25,6 +25,13 @@ function flashColor(color, shake = false) {
         requestAnimationFrame(() => {
             $background.classList.add(animation_class);
             if(shake) $interactive.classList.add(shake_class);
+            setTimeout(() => {
+                /*
+                 these cause the animation to replay when returning to the tab if left on the element (apparently this is intended?)
+                 */
+                $background.classList.remove(animation_class);
+                $interactive.classList.remove(shake_class);
+            }, 600);
         });
     });
 }
