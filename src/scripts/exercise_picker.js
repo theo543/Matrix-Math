@@ -1,4 +1,5 @@
 import * as matrices from './matrices.js';
+import { Quiz } from './quiz.js';
 
 let $interactive = document.createElement("div");
 $interactive.classList.add("interactive_exercise");
@@ -43,48 +44,23 @@ function flashColor(color, shake = false) {
 function handleExprChoice(event, $expr) {
     event.stopPropagation();
     clearInteractive();
-    $interactive.insertAdjacentHTML("beforeend", `<h4>Can you find the answer?</h4>`);
-    let $prompt = $interactive.lastElementChild;
     let $question_expr = $expr.cloneNode(true);
-    $interactive.appendChild($question_expr);
     let [$mat_a, $mat_b] = $question_expr.getElementsByClassName("matrix");
     let [ mat_a, mat_b ] = [matrices.fromHTML($mat_a), matrices.fromHTML($mat_b)];
     let result = matrices.multiply(mat_a, mat_b);
-    let $form = matrices.makeMatrixForm(result.size);
+    let quiz = new Quiz(result, $question_expr, "Can you find the answer?", true);
     flashColor('cyan');
-    $form.classList.add("interactive_form");
-    $form.insertAdjacentHTML("beforeend", `<input type='submit' value='Check answer!'>`);
-    $form.insertAdjacentHTML('beforeend', `<button>Reveal Answer</button>`);
-    /** @type {HTMLInputElement} **/
-    let $submit = $form.querySelector("input[type='submit']");
-    /** @type {HTMLButtonElement} **/
-    let $reveal = $form.getElementsByTagName("button")[0];
-    $form.addEventListener("submit", event => {
-        event.preventDefault();
-        let answer = matrices.fromHTML($form.querySelector("table"));
-        if(matrices.equal(result, answer)) {
-            $submit.disabled = true;
-            $reveal.disabled = true;
-            $prompt.textContent = "Congrats!";
+    quiz.addAnswerHandler(success => {
+        if(success) {
+            quiz.setPrompt("Congrats!");
+            quiz.setEnabled(false);
             flashColor('lime');
         } else {
-            $prompt.textContent = "Try again...";
+            quiz.setPrompt("Try again...");
             flashColor('red', true);
         }
     });
-    $reveal.addEventListener("click", event => {
-        event.preventDefault();
-        let row = 0;
-        for(let $tr of $form.getElementsByTagName("tr")) {
-            let col = 0;
-            for(let $input of $tr.getElementsByTagName("input")) {
-                $input.value = result.data[row][col].toString();
-                col++;
-            }
-            row++;
-        }
-    });
-    $interactive.appendChild($form);
+    $interactive.appendChild(quiz.$root);
     $interactive.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
 }
 
