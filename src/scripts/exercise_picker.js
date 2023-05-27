@@ -30,27 +30,7 @@ function flashColor(color, shake = false) {
 }
 
 /**
- * @param size {MatrixSize}
- * @returns {HTMLFormElement}
- */
-function makeMatrixForm(size) {
-    let $form = document.createElement("form");
-    let $table = document.createElement("table");
-    $table.classList.add("matrix");
-    $form.appendChild($table);
-    for(let row = 0;row<size.rows;row++) {
-        let $tr = document.createElement("tr");
-        for(let col = 0;col<size.cols;col++) {
-            $tr.insertAdjacentHTML('beforeend', `<td><input type="number" required alt="row ${row}, column ${col}"></td>`);
-        }
-        $table.appendChild($tr);
-    }
-    $form.insertAdjacentHTML('beforeend', `<input type='submit' value="Check answer!">`)
-    return $form;
-}
-
-/**
- * @param event {MouseEvent}
+ * @param event {Event}
  * @param $expr {HTMLElement}
  */
 function handleExprChoice(event, $expr) {
@@ -63,14 +43,15 @@ function handleExprChoice(event, $expr) {
     let [$mat_a, $mat_b] = $question_expr.getElementsByClassName("matrix");
     let [ mat_a, mat_b ] = [matrices.fromHTML($mat_a), matrices.fromHTML($mat_b)];
     let result = matrices.multiply(mat_a, mat_b);
-    let $form = makeMatrixForm(result.size);
+    let $form = matrices.makeMatrixForm(result.size);
     flashColor('cyan');
     $form.classList.add("interactive_form");
+    $form.insertAdjacentHTML("beforeend", `<input type='submit' value='Check answer!'>`);
+    $form.insertAdjacentHTML('beforeend', `<button>Reveal Answer</button>`);
     /** @type {HTMLInputElement} **/
     let $submit = $form.querySelector("input[type='submit']");
-    $form.insertAdjacentHTML('beforeend', `<button>Reveal Answer</button>`);
     /** @type {HTMLButtonElement} **/
-    let $reveal = $form.lastElementChild;
+    let $reveal = $form.getElementsByTagName("button")[0];
     $form.addEventListener("submit", event => {
         event.preventDefault();
         let answer = matrices.fromHTML($form.querySelector("table"));
@@ -115,7 +96,15 @@ export function attachPicker($col) {
     $col.addEventListener("click", event => handleMissedClick(event, $col));
     /** @type {HTMLElement[]} */
     let $expr_list = Array.from($col.getElementsByClassName("expr")).filter(element => element instanceof HTMLElement);
-    $expr_list.forEach($expr => $expr.addEventListener("click", event => handleExprChoice(event, $expr)));
+    $expr_list.forEach($expr => {
+        $expr.tabIndex = 0;
+        $expr.addEventListener("keypress", event => {
+            if(event.key === "Enter") {
+                handleExprChoice(event, $expr);
+            }
+        });
+        $expr.addEventListener("click", event => handleExprChoice(event, $expr))
+    });
 }
 
 /**

@@ -118,3 +118,22 @@ export function equal(mat_a, mat_b) {
     }
     return true;
 }
+
+/**
+ * @param size {MatrixSize}
+ * @returns {HTMLFormElement}
+ */
+export function makeMatrixForm(size) {
+    let $form = document.createElement("form");
+    let $table = document.createElement("table");
+    $table.classList.add("matrix");
+    $form.appendChild($table);
+    for(let row = 0;row<size.rows;row++) {
+        let $tr = document.createElement("tr");
+        for(let col = 0;col<size.cols;col++) {
+            $tr.insertAdjacentHTML('beforeend', `<td><input type="number" required alt="row ${row}, column ${col}"></td>`);
+        }
+        $table.appendChild($tr);
+    }
+    return $form;
+}
