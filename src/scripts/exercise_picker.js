@@ -2,7 +2,32 @@ import * as matrices from './matrices.js';
 
 let $interactive = document.createElement("div");
 $interactive.classList.add("interactive_exercise");
-$interactive.innerHTML = "<p>No exercise selected.</p>"
+$interactive.innerHTML = "<div class='interactive_background'></div><p>No exercise selected.</p>"
+/** @type {HTMLDivElement} **/
+let $background = $interactive.firstElementChild;
+
+function clearInteractive() {
+    $interactive.innerHTML = "";
+    $interactive.appendChild($background);
+}
+
+const animation_class = "interactive_flash";
+const shake_class = "interactive_shake";
+/**
+ * @param color {string}
+ * @param shake {boolean}
+ */
+function flashColor(color, shake = false) {
+    requestAnimationFrame(() => {
+        $background.classList.remove(animation_class);
+        if(shake) $interactive.classList.remove(shake_class);
+        $background.style.backgroundColor = color;
+        requestAnimationFrame(() => {
+            $background.classList.add(animation_class);
+            if(shake) $interactive.classList.add(shake_class);
+        });
+    });
+}
 
 /**
  * @param size {MatrixSize}
@@ -30,32 +55,48 @@ function makeMatrixForm(size) {
  */
 function handleExprChoice(event, $expr) {
     event.stopPropagation();
-    $interactive.innerHTML = "";
+    clearInteractive();
+    $interactive.insertAdjacentHTML("beforeend", `<h4>Can you find the answer?</h4>`);
+    let $prompt = $interactive.lastElementChild;
     let $question_expr = $expr.cloneNode(true);
     $interactive.appendChild($question_expr);
     let [$mat_a, $mat_b] = $question_expr.getElementsByClassName("matrix");
     let [ mat_a, mat_b ] = [matrices.fromHTML($mat_a), matrices.fromHTML($mat_b)];
     let result = matrices.multiply(mat_a, mat_b);
     let $form = makeMatrixForm(result.size);
+    flashColor('cyan');
     $form.classList.add("interactive_form");
+    /** @type {HTMLInputElement} **/
+    let $submit = $form.querySelector("input[type='submit']");
+    $form.insertAdjacentHTML('beforeend', `<button>Reveal Answer</button>`);
+    /** @type {HTMLButtonElement} **/
+    let $reveal = $form.lastElementChild;
     $form.addEventListener("submit", event => {
         event.preventDefault();
         let answer = matrices.fromHTML($form.querySelector("table"));
-        if(matrices.equal(result, answer))
-            alert("Congrats!");
-        else {
-            alert("Try again... check console if you want the answer")
-            console.log("Your answer: ", answer);
-            console.log("Calculated answer: ", result);
+        if(matrices.equal(result, answer)) {
+            $submit.disabled = true;
+            $reveal.disabled = true;
+            $prompt.textContent = "Congrats!";
+            flashColor('lime');
+        } else {
+            $prompt.textContent = "Try again...";
+            flashColor('red', true);
+        }
+    });
+    $reveal.addEventListener("click", event => {
+        event.preventDefault();
+        let row = 0;
+        for(let $tr of $form.getElementsByTagName("tr")) {
+            let col = 0;
+            for(let $input of $tr.getElementsByTagName("input")) {
+                $input.value = result.data[row][col].toString();
+                col++;
+            }
+            row++;
         }
     });
     $interactive.appendChild($form);
-    requestAnimationFrame(() => {
-        $interactive.classList.remove("interactive_flash");
-        requestAnimationFrame(() => {
-            $interactive.classList.add("interactive_flash");
-        });
-    });
     $interactive.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
 }
 
