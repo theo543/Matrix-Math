@@ -37,9 +37,9 @@ CSS:
 - [x] folosirea setTimeout sau setInterval
 - [ ] folosirea localStorage (să se pastreze în localStorage o colecție de elemente)
 - [x] folosirea a cel puțin unei metode din clasele: Math, Array, String, Date
-- [ ] schimbarea aleatoare a valorilor unor proprietăți (de exemplu: culoare, dimensiuni, poziție)
+- [x] schimbarea aleatoare a valorilor unor proprietăți (de exemplu: culoare, dimensiuni, poziție)
 - [x] folosirea proprietăților classList, target sau currentTarget
-- [ ] folosirea metodelor getComputedStyle și stopPropagation
+- [x] folosirea metodelor getComputedStyle și stopPropagation
 - [ ] validarea datelor dintr-un formular folosind expresii regulate
 
 Pe lângă implementarea acestor cerințe minimale (a căror rezolvare corectă nu garantează punctajul maxim), includeți în proiect și tratarea altor probleme (la alegere) precum cea a accesibilității, internaționalizării (traducere, caractere speciale etc.), folosirii canvas/svg etc.  

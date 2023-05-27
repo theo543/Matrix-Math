@@ -1,0 +1,14 @@
+.notification_container {
+  overflow: visible;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  max-width: 50%;
+}
+
+.notification {
+  overflow: auto;
+  border-radius: 10px;
+  margin: 0.75em;
+  padding: 0.75em;
+}

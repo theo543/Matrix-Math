@@ -1,4 +1,5 @@
 import * as matrices from './matrices.js';
+import * as notifications from './notifications.js';
 import { Quiz } from './quiz.js';
 
 let $interactive = document.createElement("div");
@@ -64,19 +65,18 @@ function handleExprChoice(event, $expr) {
     $interactive.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
 }
 
-/**
- * @param event {MouseEvent}
- * @param $col {HTMLElement}
- */
-function handleMissedClick(event, $col) {
-    alert("Missed click!"); /// TODO make this a notification on-screen
+function handleMissedClick() {
+    let $message = document.createElement("span");
+    $message.textContent = "Hint: click on an exercise to load it";
+    $message.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+    notifications.pushNotification($message, 1000);
 }
 
 /**
  * @param $col {HTMLElement}
  */
 export function attachPicker($col) {
-    $col.addEventListener("click", event => handleMissedClick(event, $col));
+    $col.addEventListener("click", handleMissedClick);
     /** @type {HTMLElement[]} */
     let $expr_list = Array.from($col.getElementsByClassName("expr")).filter(element => element instanceof HTMLElement);
     $expr_list.forEach($expr => {
