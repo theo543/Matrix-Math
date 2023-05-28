@@ -18,7 +18,6 @@ export class Quiz {
      * @param reveal {boolean}
      */
     constructor(answer, $question, initial_prompt, reveal) {
-        this.handler = undefined;
         this.$root.classList.add("interactive_exercise");
         this.$root.appendChild(this.$prompt);
         this.$background.classList.add("interactive_background");
@@ -70,7 +69,7 @@ export class Quiz {
             if(success) {
                 this.setPrompt("Congrats!");
                 this.setEnabled(false);
-                this.permanentColor('lime');
+                this.permanentColor('lightgreen');
             } else {
                 this.setPrompt("Try again...");
                 this.flashColor('red', true);
