@@ -49,8 +49,11 @@ export class ExerciseContainer {
      * @returns HTMLElement
      */
     addRandomGenerator(mat_number, answerCalculator, min, max) {
-        let $div = document.createElement("div");
+        let $rng_fieldset = document.createElement("fieldset");
+        $rng_fieldset.classList.add("random_exercise_fieldset");
+        $rng_fieldset.insertAdjacentHTML("beforeend", "<legend> Random Exercise Generator </legend>")
         let $rng_form = document.createElement("form");
+        $rng_fieldset.appendChild($rng_form);
         for(let i = 0; i < mat_number; i++) {
             $rng_form.insertAdjacentHTML("beforeend",
                 `<label>Matrix ${i}: <input value="3 X 3" type="text" pattern="\\s*\\d+\\s*X\\s*\\d+\\s*"></label>`
@@ -76,7 +79,7 @@ export class ExerciseContainer {
             if(exercise)
                 this.updateExercise(exercise[0], exercise[1]);
         });
-        return $rng_form;
+        return $rng_fieldset;
     }
 
     updateExercise($question, answer) {

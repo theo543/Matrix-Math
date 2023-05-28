@@ -37,10 +37,7 @@ function multiplyExerciseFromRNG(generated) {
 let multiplyExerciseContainer = new ExerciseContainer();
 multiplyExerciseContainer.addSelectSource(document.querySelector("#tab3 .col"), multiplyExerciseAnswer);
 document.getElementById("interactive_exercise_location").replaceWith(multiplyExerciseContainer.$root);
-let $randomGen = document.createElement("fieldset");
-$randomGen.classList.add("random_exercise_fieldset");
-$randomGen.insertAdjacentHTML("beforeend", "<legend> Random Exercise Generator </legend>")
-$randomGen.appendChild(multiplyExerciseContainer.addRandomGenerator(2, multiplyExerciseFromRNG, -3, 3));
+let $randomGen = multiplyExerciseContainer.addRandomGenerator(2, multiplyExerciseFromRNG, -3, 3)
 multiplyExerciseContainer.$root.insertAdjacentElement("beforebegin", $randomGen);
 
 let { current, latest } = await version.fetchVersion();
