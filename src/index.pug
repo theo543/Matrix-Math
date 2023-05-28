@@ -30,6 +30,9 @@ html(lang='en')
                 include _tab1.pug
         footer
             p Proiect Tehnici Web
+            a(href="https://github.com/theo543/Matrix-Math/") Source code at GitHub
+            - if(typeof hash === "undefined") { hash = "unknown"; throw "Commit hash not set."; }
+            p Commit #{hash}
             p Negrescu Theodor, Grupa 151, FMI
             .credits
                 <a href="https://www.flaticon.com/free-icons/matrix" title="matrix icons">Matrix icons created by Freepik - Flaticon</a>

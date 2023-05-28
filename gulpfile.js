@@ -7,6 +7,7 @@ const browserSync = require('browser-sync').create();
 const exec = require("util").promisify(require("child_process").exec);
 
 let dest = "build";
+let hash = undefined;
 
 exports.styles = function styles() {
     return gulp.src(["src/**/*.scss", "!src/**/_*"])
@@ -20,7 +21,8 @@ exports.views = function views() {
         .pipe(rename({extname: ".html"}))
         .pipe(pug(
             {
-                pretty: true
+                pretty: true,
+                locals: {'hash' : hash}
             }
         ))
         .pipe(gulp.dest(dest))
@@ -32,7 +34,7 @@ exports.resources = function resources() {
 }
 
 exports.revision = async function revision() {
-    let hash = (await exec("git rev-parse HEAD")).stdout.trim();
+    hash = (await exec("git rev-parse HEAD")).stdout.trim();
     let timestamp = parseInt((await exec(`git show ${hash} -s --format="%ct"`)).stdout);
     await fs.promises.writeFile(`${dest}/revision.json`, JSON.stringify({hash: hash, timestamp: timestamp}));
 }
@@ -56,7 +58,7 @@ exports.refresh = function refresh(cb) {
     cb();
 }
 
-exports.build = gulp.series(exports.clean, gulp.parallel(exports.styles, exports.views, exports.resources, exports.revision));
+exports.build = gulp.series(exports.clean, exports.revision, gulp.parallel(exports.styles, exports.views, exports.resources));
 
 exports.watch = function watch() {
     gulp.watch("src/**/*", gulp.series(exports.build, exports.refresh));
