@@ -17,13 +17,6 @@
   }
 }
 
-.matrix_quiz {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .interactive_form {
   display: flex;
   flex-direction: column;
@@ -46,11 +39,29 @@
   left: 0;
   top: 0;
   pointer-events: none;
+  svg {
+    // TODO use this to display a checkmark on correct answer
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
 }
 
 .interactive_flash {
   animation: interactive_question_update 0.40s;
   animation-iteration-count: 1;
+}
+
+.permanent_flash {
+  transition: opacity 1s;
+  opacity: 1;
+  svg {
+    transition: clip-path 0.5s;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
 }
 
 .interactive_shake {

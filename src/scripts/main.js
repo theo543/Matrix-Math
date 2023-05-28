@@ -1,8 +1,14 @@
 import * as matrices from './matrices.js';
-import * as picker from "./exercise_picker.js";
+import { ExercisePicker } from "./ExercisePicker.js";
 
-window.matrices = matrices; // for debugging
+/**
+ * @param $question_expr {HTMLElement}
+ */
+function multiplyExerciseAnswer($question_expr) {
+    let [$mat_a, $mat_b] = $question_expr.getElementsByClassName("matrix");
+    let [ mat_a, mat_b ] = [matrices.fromHTML($mat_a), matrices.fromHTML($mat_b)];
+    return matrices.multiply(mat_a, mat_b);
+}
 
-let $exercise_examples = document.querySelector("#tab3 .col");
-picker.attachPicker($exercise_examples);
-document.getElementById("interactive_exercise_location").replaceWith(picker.getInteractiveExercise());
+let $multiply_exercises = document.querySelector("#tab3 .col");
+document.getElementById("interactive_exercise_location").replaceWith(new ExercisePicker($multiply_exercises, multiplyExerciseAnswer).$root);

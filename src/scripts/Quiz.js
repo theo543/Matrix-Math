@@ -2,9 +2,11 @@ import * as matrices from './matrices.js';
 
 export class Quiz {
     /** @type {HTMLDivElement} **/
-    $root;
+    $root = document.createElement("div");
+    /** @type {HTMLDivElement} **/
+    $background = document.createElement("div");
     /** @type {HTMLHeadingElement} **/
-    $prompt;
+    $prompt = document.createElement("h4");
     /** @type {HTMLFormElement} **/
     $form;
     /** @type {Matrix} **/
@@ -17,10 +19,10 @@ export class Quiz {
      */
     constructor(answer, $question, initial_prompt, reveal) {
         this.handler = undefined;
-        this.$root = document.createElement("div");
-        this.$root.classList.add("matrix_quiz");
-        this.$prompt = document.createElement("h4");
+        this.$root.classList.add("interactive_exercise");
         this.$root.appendChild(this.$prompt);
+        this.$background.classList.add("interactive_background");
+        this.$root.appendChild(this.$background);
         this.$prompt.textContent = initial_prompt;
         this.$root.appendChild(this.$prompt);
         this.$root.appendChild($question);
@@ -63,11 +65,24 @@ export class Quiz {
         });
     }
 
+    addDefaultHandler() {
+        this.addAnswerHandler(success => {
+            if(success) {
+                this.setPrompt("Congrats!");
+                this.setEnabled(false);
+                this.permanentColor('lime');
+            } else {
+                this.setPrompt("Try again...");
+                this.flashColor('red', true);
+            }
+        });
+    }
+
     /**
      * @param enabled {boolean}
      */
     setEnabled(enabled) {
-        for(let elem of this.$form.querySelectorAll("input[type='submit'], button")) {
+        for(let elem of this.$form.querySelectorAll("input, button")) {
             elem.disabled = !enabled;
         }
     }
@@ -77,5 +92,39 @@ export class Quiz {
      */
     setPrompt(prompt) {
         this.$prompt.textContent = prompt;
+    }
+
+    /**
+     * @param color {string}
+     * @param shake {boolean}
+     */
+    flashColor(color, shake = false) {
+        const animation_class = "interactive_flash";
+        const shake_class = "interactive_shake";
+        requestAnimationFrame(() => {
+            this.$background.classList.remove(animation_class);
+            if(shake) this.$root.classList.remove(shake_class);
+            this.$background.style.backgroundColor = color;
+            requestAnimationFrame(() => {
+                this.$background.classList.add(animation_class);
+                if(shake) this.$root.classList.add(shake_class);
+                setTimeout(() => {
+                    /*
+                     these cause the animation to replay when returning to the tab if left on the element (apparently this is intended?)
+                     */
+                    this.$background.classList.remove(animation_class);
+                    this.$root.classList.remove(shake_class);
+                }, 600);
+            });
+        });
+    }
+
+    /**
+     * @param color {string}
+    */
+    permanentColor(color) {
+        const transition_class = "permanent_flash";
+        this.$background.style.backgroundColor = color;
+        this.$background.classList.add(transition_class);
     }
 }
