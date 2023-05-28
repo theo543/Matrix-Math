@@ -30,7 +30,7 @@
   }
 }
 
-$mid: 30%;
+$mid: 40%;
 $checkmark-hidden:  polygon($mid 0%, $mid 0%, $mid 100%, $mid 100%, $mid   0%, $mid 0%);
 $checkmark-visible: polygon($mid 0%, 0%   0%, 0%   100%, 100% 100%, 100%   0%, $mid 0%);
 
@@ -48,6 +48,7 @@ $checkmark-visible: polygon($mid 0%, 0%   0%, 0%   100%, 100% 100%, 100%   0%, $
     position: absolute;
     pointer-events: none;
     background-image: url("../images/checkmark.svg");
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     width: 50%;
     height: 100%;
@@ -57,12 +58,10 @@ $checkmark-visible: polygon($mid 0%, 0%   0%, 0%   100%, 100% 100%, 100%   0%, $
   &::before {
     left: 0;
     top: 0;
-    background-position: center left;
   }
   &::after {
     right: 0;
     top: 0;
-    background-position: center right;
   }
 }
 
