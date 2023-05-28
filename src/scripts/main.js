@@ -34,7 +34,7 @@ function multiplyExerciseFromRNG(generated) {
     return [$expr, matrices.multiply(mat_a, mat_b)];
 }
 
-let multiplyExerciseContainer = new ExerciseContainer();
+let multiplyExerciseContainer = new ExerciseContainer("exercise_container_multiply");
 multiplyExerciseContainer.addSelectSource(document.querySelector("#tab3 .col"), multiplyExerciseAnswer);
 document.getElementById("interactive_exercise_location").replaceWith(multiplyExerciseContainer.$root);
 let $randomGen = multiplyExerciseContainer.addRandomGenerator(2, multiplyExerciseFromRNG, -3, 3)

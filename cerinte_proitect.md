@@ -30,12 +30,12 @@ CSS:
 - [x] fișier separat pentru codul JavaScript
 - [x] modificarea stilului unui element sau al unui grup de elemente
 - [x] manipularea DOM-ului (selectare după id, tag, clasă, folosind selectori CSS)
-- [x] crearea și stergerea de elemente HTML
+- [x] crearea și ștergerea de elemente HTML
 - [x] folosirea și modificarea evenimentelor generate de mouse si tastatură
 - [x] modificare de proprietăți
 - [x] inputuri funcționale (de exemplu: input de tip text/range/number/radio/checkbox, select, textarea)
 - [x] folosirea setTimeout sau setInterval
-- [ ] folosirea localStorage (să se pastreze în localStorage o colecție de elemente)
+- [x] folosirea localStorage (să se păstreze în localStorage o colecție de elemente)
 - [x] folosirea a cel puțin unei metode din clasele: Math, Array, String, Date
 - [x] schimbarea aleatoare a valorilor unor proprietăți (de exemplu: culoare, dimensiuni, poziție)
 - [x] folosirea proprietăților classList, target sau currentTarget

@@ -2,11 +2,24 @@ import { pushNotification } from './notifications.js';
 import { Quiz } from './Quiz.js';
 import * as matrices from './matrices.js';
 
+const localStorageVersion = "1";
+const exprSuffix = "-expr";
+const answerSuffix = "-answer";
 export class ExerciseContainer {
     $root = document.createElement("div");
+    /** @type {String | null} **/
+    localStorage_id = null;
 
-    constructor() {
+    constructor(unique_id = null) {
         this.$root.innerHTML = `<h4>Choose an exercise!</h4>`;
+        this.localStorage_id = unique_id;
+        if(this.localStorage_id && localStorage.getItem(this.localStorage_id) === localStorageVersion) {
+            let $tmp = document.createElement("div");
+            $tmp.innerHTML = localStorage.getItem(this.localStorage_id + exprSuffix);
+            let $expr = $tmp.firstElementChild;
+            let answer = JSON.parse(localStorage.getItem(this.localStorage_id + answerSuffix));
+            this.updateExercise($expr, answer);
+        }
     }
 
     /**
@@ -84,12 +97,30 @@ export class ExerciseContainer {
 
     updateExercise($question, answer) {
         let quiz = new Quiz(answer, $question, "Can you find the answer?", true);
-        quiz.flashColor('cyan');
         quiz.addDefaultHandler();
         this.$root.childNodes.forEach(node => node.remove());
         this.$root.appendChild(quiz.$root);
-        this.$root.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
-
+        if(this.$root.isConnected) {
+            this.$root.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+            quiz.flashColor('cyan');
+        } else {
+            let mo = new MutationObserver(() => {
+                if(this.$root.isConnected) {
+                    // it's null if the element is hidden via any of it's parent (aka we loaded into another tab)
+                    if(this.$root.offsetParent !== null) {
+                        this.$root.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
+                        quiz.flashColor('cyan');
+                    }
+                    mo.disconnect();
+                }
+            });
+            mo.observe(document.body, {childList: true, subtree: true});
+        }
+        if(this.localStorage_id) {
+            localStorage.setItem(this.localStorage_id, localStorageVersion);
+            localStorage.setItem(this.localStorage_id + exprSuffix, $question.outerHTML);
+            localStorage.setItem(this.localStorage_id + answerSuffix, JSON.stringify(answer));
+        }
     }
 
     handleMissedClick() {
