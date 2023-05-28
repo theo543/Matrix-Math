@@ -1,5 +1,5 @@
 import * as matrices from './matrices.js';
-import { ExercisePicker } from "./ExercisePicker.js";
+import { ExerciseContainer } from "./ExerciseContainer.js";
 import * as version from './version.js';
 
 /**
@@ -11,8 +11,9 @@ function multiplyExerciseAnswer($question_expr) {
     return matrices.multiply(mat_a, mat_b);
 }
 
-let $multiply_exercises = document.querySelector("#tab3 .col");
-document.getElementById("interactive_exercise_location").replaceWith(new ExercisePicker($multiply_exercises, multiplyExerciseAnswer).$root);
+let multiplyExerciseContainer = new ExerciseContainer();
+multiplyExerciseContainer.addSelectSource(document.querySelector("#tab3 .col"), multiplyExerciseAnswer);
+document.getElementById("interactive_exercise_location").replaceWith(multiplyExerciseContainer.$root);
 
 let { current, latest } = await version.fetchVersion();
 version.notifyVersion(current, latest);

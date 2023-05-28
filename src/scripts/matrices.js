@@ -37,9 +37,9 @@ export function dot_product(a, b) {
 export function multiply(a, b) {
     if (a.size.cols !== b.size.rows)
         throw ("Incompatible matrices");
-    let result = Array(a.size.rows);
+    /** @type {MatrixData} **/
+    let result = Array.from({length: a.size.rows}, () => Array(b.size.cols));
     for(let row = 0; row < a.size.rows; row++) {
-        result[row] = Array(b.size.cols);
         for(let col = 0; col < b.size.cols; col++) {
             result[row][col] = dot_product(a.data[row], getColumn(b, col));
         }

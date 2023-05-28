@@ -1,37 +1,37 @@
 import { pushNotification } from './notifications.js';
 import { Quiz } from './Quiz.js';
 
-export class ExercisePicker {
+export class ExerciseContainer {
     /** @type {HTMLElement} */
     $root;
+
+    constructor() {
+        this.$root = document.createElement("div");
+        this.$root.innerHTML = `<h4>Choose an exercise!</h4>`;
+    }
 
     /**
      * @callback AnswerCalculator
      * @param $expr {HTMLElement}
      * @result {Matrix}
      */
-    /** @type {AnswerCalculator} **/
-    answerCalculator;
-
     /**
      * @param $source {HTMLElement}
      * @param answerCalculator {AnswerCalculator}
      */
-    constructor($source, answerCalculator) {
-        this.$root = document.createElement("div");
-        this.answerCalculator = answerCalculator;
-        this.$root.innerHTML = `<h4>Choose an exercise!</h4>`;
+    addSelectSource($source, answerCalculator) {
         $source.addEventListener("click", this.handleMissedClick);
         /** @type {HTMLElement[]} */
         let $expr_list = Array.from($source.getElementsByClassName("expr")).filter(element => element instanceof HTMLElement);
         $expr_list.forEach($expr => {
+            let loadThisExpr = event => {
+                event.stopPropagation();
+                if(event instanceof KeyboardEvent && event.key !== "Enter") return;
+                this.updateExercise($expr.cloneNode(true), answerCalculator($expr));
+            };
             $expr.tabIndex = 0;
-            $expr.addEventListener("keypress", event => {
-                if(event.key === "Enter") {
-                    this.handleExprChoice(event, $expr);
-                }
-            });
-            $expr.addEventListener("click", event => this.handleExprChoice(event, $expr))
+            $expr.addEventListener("keypress", loadThisExpr);
+            $expr.addEventListener("click", loadThisExpr);
         });
     }
 
@@ -43,16 +43,6 @@ export class ExercisePicker {
         this.$root.appendChild(quiz.$root);
         this.$root.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
 
-    }
-
-    /**
-     * @param event {Event}
-     * @param $expr {HTMLElement}
-     */
-    handleExprChoice(event, $expr) {
-        event.stopPropagation();
-        let $question_expr = $expr.cloneNode(true);
-        this.updateExercise($question_expr, this.answerCalculator($question_expr));
     }
 
     handleMissedClick() {
