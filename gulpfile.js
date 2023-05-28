@@ -32,8 +32,9 @@ exports.resources = function resources() {
 }
 
 exports.revision = async function revision() {
-    const { stdout } = await exec("git rev-parse HEAD");
-    await fs.promises.writeFile(`${dest}/revision.txt`, stdout);
+    let hash = (await exec("git rev-parse HEAD")).stdout.trim();
+    let timestamp = parseInt((await exec(`git show ${hash} -s --format="%ct"`)).stdout);
+    await fs.promises.writeFile(`${dest}/revision.json`, JSON.stringify({hash: hash, timestamp: timestamp}));
 }
 
 exports.clean = async function clean() {
