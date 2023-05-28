@@ -11,7 +11,7 @@
  */
 function getColumn(mat, col_index) {
     /** @type {number[]} **/
-    let col = Array(mat.size.cols);
+    let col = Array(mat.size.rows);
     mat.data.forEach((row, row_index) => col[row_index] = row[col_index]);
     return col;
 }
@@ -136,4 +136,18 @@ export function makeMatrixForm(size) {
         $table.appendChild($tr);
     }
     return $form;
+}
+
+/**
+ * @param size {MatrixSize}
+ * @param min {number}
+ * @param max {number}
+ * @returns {Matrix}
+ */
+export function random(size, min, max) {
+    /** @type {MatrixData} **/
+    let matrix = Array.from({length: size.rows},
+        () => Array.from({length: size.cols}, () => Math.round(Math.random() * (max - min) + min))
+    );
+    return {size: size, data: matrix};
 }

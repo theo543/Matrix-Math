@@ -1,11 +1,8 @@
 import * as matrices from './matrices.js';
 
 export class Quiz {
-    /** @type {HTMLDivElement} **/
     $root = document.createElement("div");
-    /** @type {HTMLDivElement} **/
     $background = document.createElement("div");
-    /** @type {HTMLHeadingElement} **/
     $prompt = document.createElement("h4");
     /** @type {HTMLFormElement} **/
     $form;
@@ -31,7 +28,6 @@ export class Quiz {
         this.$form.classList.add("interactive_form");
         this.$form.insertAdjacentHTML("beforeend", `<input type='submit' value='Check answer!'>`);
         this.$form.insertAdjacentHTML('beforeend', `<button>Reveal Answer</button>`);
-        /** @type {HTMLButtonElement} **/
         let $reveal = this.$form.getElementsByTagName("button")[0];
         $reveal.addEventListener("click", event => {
             event.preventDefault();

@@ -30,6 +30,28 @@
   }
 }
 
+.random_exercise_fieldset {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  legend {
+    margin: 0 auto;
+  }
+}
+.random_matrix_form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  label {
+    text-align: center;
+    input {
+      text-align: center;
+      width: 12ch;
+    }
+  }
+}
+
 $mid: 40%;
 $checkmark-hidden:  polygon($mid 0%, $mid 0%, $mid 100%, $mid 100%, $mid   0%, $mid 0%);
 $checkmark-visible: polygon($mid 0%, 0%   0%, 0%   100%, 100% 100%, 100%   0%, $mid 0%);
