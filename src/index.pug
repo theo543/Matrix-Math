@@ -7,12 +7,14 @@ html(lang='en')
         link(rel='icon' href='images/title.png')
         link(rel='stylesheet' href='styles/style.css')
         script(src='scripts/main.js' type='module')
+        script(src='scripts/canvas_background.js' type='module')
         title Matrices
     body
         header
             img(src='images/title.png' alt='Matrix icon' width='100' height='100')
             h1 Matrix Math
         .tabs
+            canvas.canvas_background
             div: nav
                 input#nav-toggle(type='checkbox')
                 div.label_container: label(for='nav-toggle')
