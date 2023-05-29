@@ -142,12 +142,64 @@ export function makeMatrixForm(size) {
  * @param size {MatrixSize}
  * @param min {number}
  * @param max {number}
+ * @param invertible {boolean}
  * @returns {Matrix}
  */
-export function random(size, min, max) {
+export function random(size, min, max, invertible = false) {
+    while(1) {
+        /** @type {MatrixData} **/
+        let matrix_data = Array.from({length: size.rows},
+            () => Array.from({length: size.cols}, () => Math.round(Math.random() * (max - min) + min))
+        );
+        let matrix = {size: size, data: matrix_data};
+        if(invertible && (determinant(matrix) === 0)) {
+            continue;
+        }
+        return matrix;
+    }
+}
+
+/**
+ * @param matrix {Matrix}
+ * @param row {number}
+ * @param column {number}
+ * @returns {Matrix}
+ */
+export function crossOut(matrix, row, column) {
     /** @type {MatrixData} **/
-    let matrix = Array.from({length: size.rows},
-        () => Array.from({length: size.cols}, () => Math.round(Math.random() * (max - min) + min))
-    );
-    return {size: size, data: matrix};
+    let result = Array.from({length: matrix.size.rows - 1}, () => Array(matrix.size.cols - 1));
+    let output_row_i = 0;
+    matrix.data.forEach((original_row, row_index) => {
+        if(row_index === row) return;
+        let output_col_i = 0;
+        original_row.forEach((cell, col_index) => {
+            if(col_index === column) return;
+            result[output_row_i][output_col_i] = cell;
+            output_col_i++;
+        });
+        output_row_i++;
+    });
+    return {size: {rows: result.length, cols: result[0].length}, data: result};
+}
+
+/**
+ * @param matrix {Matrix}
+ */
+export function determinant(matrix) {
+    if(matrix.size.rows !== matrix.size.cols) throw "Matrix must be square";
+    let size = matrix.size.rows;
+    if(size === 2) {
+        return matrix.data[0][0] * matrix.data[1][1] - matrix.data[0][1] * matrix.data[1][0];
+    } else if(size === 1) {
+        return matrix.data[0][0];
+    } else {
+        let sum = 0;
+        let sign = 1;
+        for(let row_index = 0;row_index < size;row_index++) {
+            let minor_matrix = crossOut(matrix, row_index, 0);
+            sum += sign * matrix.data[row_index][0] * determinant(minor_matrix);
+        }
+        sign *= -1;
+        return sum;
+    }
 }
