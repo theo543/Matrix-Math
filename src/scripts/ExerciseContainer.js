@@ -74,7 +74,7 @@ export class ExerciseContainer {
         $rng_fieldset.appendChild($rng_form);
         for(let i = 0; i < mat_number; i++) {
             $rng_form.insertAdjacentHTML("beforeend",
-                `<label>Matrix ${i}: <input value="3 X 3" type="text" pattern="\\s*\\d+\\s*X\\s*\\d+\\s*"></label>`
+                `<label>Matrix ${i + 1}: <input value="3 X 3" type="text" pattern="\\s*\\d+\\s*X\\s*\\d+\\s*"></label>`
             );
         }
         $rng_form.classList.add("random_matrix_form");
@@ -145,6 +145,16 @@ export class ExerciseContainer {
 
     setResetCallback(cb) {
         this.resetCallback = cb;
+    }
+
+    /**
+     * @returns {Promise<>}
+     */
+    promisify() {
+        if(this.solvedCallback) throw "Unfortunately, this object only supports one callback at a time.";
+        return new Promise((resolve, reject) => {
+            this.solvedCallback = resolve;
+        });
     }
 
 }

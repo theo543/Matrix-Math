@@ -1,3 +1,10 @@
 h2 Matrix Inversion Practice
 p.
-    Let's invert a matrix. This will be a multi-stage process. First, generate a matrix to get started.
+    Let's invert a matrix. This will be a multi-stage process.
+ol
+    li First, we will need the determinant. The generated matrix will always be invertible, but if the determinant were 0 that would mean it isn't invertible.
+    li Then, transpose the matrix. (#[span.expr A#[sup T]])
+    li The adjugate matrix is the matrix of cofactors of the transpose. (#[span.expr Adj(A) = Cof(A#[sup T])])
+    li Done! The inverse is #[span.expr (1/det) * Adj(A)].
+div#inversion_exercise_location
+    noscript Interactive exercise won't work without JavaScript. Please upgrade to an up-to-date browser.

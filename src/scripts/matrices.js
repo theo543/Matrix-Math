@@ -184,6 +184,7 @@ export function crossOut(matrix, row, column) {
 
 /**
  * @param matrix {Matrix}
+ * @returns {number}
  */
 export function determinant(matrix) {
     if(matrix.size.rows !== matrix.size.cols) throw "Matrix must be square";
@@ -197,9 +198,43 @@ export function determinant(matrix) {
         let sign = 1;
         for(let row_index = 0;row_index < size;row_index++) {
             let minor_matrix = crossOut(matrix, row_index, 0);
-            sum += sign * matrix.data[row_index][0] * determinant(minor_matrix);
+            let minor_coefficient = matrix.data[row_index][0];
+            let minor_determinant = determinant(minor_matrix);
+            console.log(sign, '*', minor_coefficient, "* det(", minor_matrix, ")", minor_determinant);
+            sum += sign * minor_coefficient * minor_determinant;
+            sign *= -1;
         }
-        sign *= -1;
         return sum;
     }
+}
+
+/**
+ * @param matrix {Matrix}
+ * @returns {Matrix}
+ */
+export function transpose(matrix) {
+    /** @type {MatrixData} **/
+    let result = Array.from({length: matrix.size.cols}, () => Array(matrix.size.rows));
+    for(let row = 0;row<matrix.size.rows;row++) {
+        for(let col = 0;col<matrix.size.cols;col++) {
+            result[col][row] = matrix.data[row][col];
+        }
+    }
+    return {size: {rows: matrix.size.cols, cols: matrix.size.rows}, data: result};
+}
+
+/**
+ * @param matrix {Matrix}
+ * @returns {Matrix}
+ */
+export function cofactors(matrix) {
+    /** @type {MatrixData} **/
+    let result = Array.from({length: matrix.size.rows}, () => Array(matrix.size.cols));
+    for(let row = 0;row<matrix.size.rows;row++) {
+        for(let col = 0;col<matrix.size.cols;col++) {
+            let sign = ((row + col) % 2 === 0) ? 1 : -1;
+            result[row][col] = determinant(crossOut(matrix, row, col)) * sign;
+        }
+    }
+    return {size: matrix.size, data: result};
 }
