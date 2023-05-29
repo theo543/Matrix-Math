@@ -6,9 +6,9 @@ import {pushNotification} from "./notifications.js";
  */
 export async function fetchVersion() {
     /** @type {Commit} **/
-    let thisVersion = await fetch("revision.json").then(r => r.json());
+    let thisVersion = await fetch("revision.json", {cache: "reload"}).then(r => r.json());
     /** @type {Commit} **/
-    let latestVersion = await fetch("https://theo543.github.io/Matrix-Math/revision.json").then(r => r.json());
+    let latestVersion = await fetch("https://theo543.github.io/Matrix-Math/revision.json", {cache: "reload"}).then(r => r.json());
     return {current: thisVersion, latest: latestVersion};
 }
 export function notifyVersion(thisVersion, latestVersion) {
