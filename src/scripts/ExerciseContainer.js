@@ -9,6 +9,10 @@ export class ExerciseContainer {
     $root = document.createElement("div");
     /** @type {String | null} **/
     localStorage_id = null;
+    /** @type {Function | null} **/
+    solvedCallback = null;
+    /** @type {Function | null} **/
+    resetCallback = null;
 
     constructor(unique_id = null) {
         this.$root.innerHTML = `<h4>Choose an exercise!</h4>`;
@@ -59,9 +63,10 @@ export class ExerciseContainer {
      * @param answerCalculator {ExerciseFromMatrices}
      * @param min {number}
      * @param max {number}
+     * @param invertible {boolean}
      * @returns HTMLElement
      */
-    addRandomGenerator(mat_number, answerCalculator, min, max) {
+    addRandomGenerator(mat_number, answerCalculator, min, max, invertible = false) {
         let $rng_fieldset = document.createElement("fieldset");
         $rng_fieldset.classList.add("random_exercise_fieldset");
         $rng_fieldset.insertAdjacentHTML("beforeend", "<legend> Random Exercise Generator </legend>")
@@ -79,7 +84,7 @@ export class ExerciseContainer {
             /** @type {Matrix[]} **/
             let generated = Array.from($rng_form.getElementsByTagName("input")).filter(elem => elem.type === "text").map(input => {
                 let sizes = input.value.split("X");
-                return matrices.random({rows: parseInt(sizes[0]), cols: parseInt(sizes[1])}, min, max);
+                return matrices.random({rows: parseInt(sizes[0]), cols: parseInt(sizes[1])}, min, max, invertible);
             });
             const limit = 15;
             if(generated.some(matrix => matrix.size.rows > limit || matrix.size.cols > limit)) {
@@ -121,6 +126,10 @@ export class ExerciseContainer {
             localStorage.setItem(this.localStorage_id + exprSuffix, $question.outerHTML);
             localStorage.setItem(this.localStorage_id + answerSuffix, JSON.stringify(answer));
         }
+        quiz.addAnswerHandler(solved => {
+            if(solved && this.solvedCallback) this.solvedCallback();
+        });
+        if(this.resetCallback) this.resetCallback();
     }
 
     handleMissedClick() {
@@ -128,6 +137,14 @@ export class ExerciseContainer {
         $message.textContent = "Hint: click on an exercise to load it";
         $message.style.backgroundColor = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
         pushNotification($message, 1000);
+    }
+
+    setSolvedCallback(cb) {
+        this.solvedCallback = cb;
+    }
+
+    setResetCallback(cb) {
+        this.resetCallback = cb;
     }
 
 }
