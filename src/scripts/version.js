@@ -1,7 +1,7 @@
 import {pushNotification} from "./notifications.js";
 
 /**
- * @typedef {{hash: string, timestamp: number}} Commit
+ * @typedef {{hash: string, timestamp: number, uncommitted_changes: boolean?}} Commit
  * @returns {{current: Commit, latest: Commit}}
  */
 export async function fetchVersion() {
@@ -24,6 +24,10 @@ export function notifyVersion(thisVersion, latestVersion) {
         timeout = 2000;
     } else {
         $version.innerHTML = `Welcome to Matrix Math! Viewing the latest version.`;
+    }
+    if(thisVersion.uncommitted_changes !== undefined && thisVersion.uncommitted_changes === true) {
+        $version.innerHTML += " Warning: Uncommitted changes present!";
+        timeout += 1000;
     }
     $version.style.backgroundColor = color;
     pushNotification($version, timeout);

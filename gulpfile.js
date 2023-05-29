@@ -34,9 +34,13 @@ exports.resources = function resources() {
 }
 
 exports.revision = async function revision() {
+    let json = {};
+    await exec("git update-index --refresh").catch(() => {});
+    await exec("git diff-index --quiet HEAD --").catch(() => {json['uncommitted_changes'] = true;});
     hash = (await exec("git rev-parse HEAD")).stdout.trim();
-    let timestamp = parseInt((await exec(`git show ${hash} -s --format="%ct"`)).stdout);
-    await fs.promises.writeFile(`${dest}/revision.json`, JSON.stringify({hash: hash, timestamp: timestamp}));
+    json['timestamp'] = parseInt((await exec(`git show ${hash} -s --format="%ct"`)).stdout);
+    json['hash'] = hash;
+    await fs.promises.writeFile(`${dest}/revision.json`, JSON.stringify(json));
 }
 
 exports.clean = async function clean() {
